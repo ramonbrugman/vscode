@@ -209,6 +209,17 @@ import { IJSONSchema } from 'vs/base/common/jsonSchema';
 				'scope': ConfigurationScope.APPLICATION,
 				'markdownDescription': nls.localize('openWithoutArgumentsInNewWindow', "Controls whether a new empty window should open when starting a second instance without arguments or if the last running instance should get focus.\nNote that there can still be cases where this setting is ignored (e.g. when using the `--new-window` or `--reuse-window` command line option).")
 			},
+			'window.startup': {
+				'type': 'string',
+				'enum': ['default', 'restore'],
+				'enumDescriptions': [
+					nls.localize('window.startup.default', "Previous state is restored only if not explicitly opening a file or folder."),
+					nls.localize('window.startup.restore', "Previous state is restored even when explicitly opening a file or folder.")
+				],
+				'default': 'default',
+				'scope': ConfigurationScope.APPLICATION,
+				'markdownDescription': nls.localize('startup', "Controls wether previous state is restored on startup or not. This setting only has an effect when `#window.restoreWindows#` is set restore windows.")
+			},
 			'window.restoreWindows': {
 				'type': 'string',
 				'enum': ['all', 'folders', 'one', 'none'],

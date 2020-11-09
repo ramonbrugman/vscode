@@ -167,6 +167,7 @@ class PerfModelContentProvider implements ITextModelContentProvider {
 		const table: Array<Array<string | number | undefined>> = [];
 		table.push(['start => app.isReady', metrics.timers.ellapsedAppReady, '[main]', `initial startup: ${metrics.initialStartup}`]);
 		table.push(['nls:start => nls:end', metrics.timers.ellapsedNlsGeneration, '[main]', `initial startup: ${metrics.initialStartup}`]);
+		table.push(['getUserDataPath', metrics.initialStartup ? perf.getDuration('willGetUserDataPath', 'didGetUserDataPath') : undefined, '[main]', `initial startup: ${metrics.initialStartup}`]);
 		table.push(['require(main.bundle.js)', metrics.initialStartup ? perf.getDuration('willLoadMainBundle', 'didLoadMainBundle') : undefined, '[main]', `initial startup: ${metrics.initialStartup}`]);
 		table.push(['app.isReady => window.loadUrl()', metrics.timers.ellapsedWindowLoad, '[main]', `initial startup: ${metrics.initialStartup}`]);
 		table.push(['window.loadUrl() => begin to require(workbench.desktop.main.js)', metrics.timers.ellapsedWindowLoadToRequire, '[main->renderer]', StartupKindToString(metrics.windowKind)]);

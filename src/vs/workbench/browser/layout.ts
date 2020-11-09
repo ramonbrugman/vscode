@@ -753,7 +753,9 @@ export abstract class Layout extends Disposable implements IWorkbenchLayoutServi
 		const initialFilesToOpen = this.getInitialFilesToOpen();
 
 		// Only restore editors if we are not instructed to open files initially
-		this.state.editor.restoreEditors = initialFilesToOpen === undefined;
+		// or when `window.startup` setting is explicitly set to `restore`
+		const forceRestoreEditors = this.configurationService.getValue('window.startup') === 'restore';
+		this.state.editor.restoreEditors = !!forceRestoreEditors || initialFilesToOpen === undefined;
 
 		// Files to open, diff or create
 		if (initialFilesToOpen !== undefined) {

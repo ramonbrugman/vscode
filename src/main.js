@@ -32,7 +32,9 @@ bootstrap.enableASARSupport();
 
 // Set userData path before app 'ready' event
 const args = parseCLIArgs();
+perf.mark('willGetUserDataPath');
 const userDataPath = getUserDataPath(args);
+perf.mark('didGetUserDataPath');
 app.setPath('userData', userDataPath);
 
 // Configure static command line arguments

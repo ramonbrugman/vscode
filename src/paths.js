@@ -42,7 +42,23 @@ function getDefaultUserDataPath() {
 		}
 	}
 
-	return path.join(appDataPath, pkg.name);
+	let isAdmin = false;
+	if (process.platform === 'win32') {
+		try {
+			isAdmin = require('native-is-elevated')();
+		} catch (error) {
+			console.error(error);
+		}
+	} else {
+		isAdmin = process.getuid() === 0;
+	}
+
+	let userDataPathSuffix = pkg.name;
+	if (isAdmin) {
+		userDataPathSuffix = `${userDataPathSuffix}-elevated`;
+	}
+
+	return path.join(appDataPath, userDataPathSuffix);
 }
 
 exports.getDefaultUserDataPath = getDefaultUserDataPath;
