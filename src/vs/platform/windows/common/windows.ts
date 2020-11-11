@@ -105,6 +105,7 @@ export interface IWindowSettings {
 	openFoldersInNewWindow: 'on' | 'off' | 'default';
 	openWithoutArgumentsInNewWindow: 'on' | 'off';
 	restoreWindows: 'all' | 'folders' | 'one' | 'none';
+	startup: 'default' | 'restore';
 	restoreFullscreen: boolean;
 	zoomLevel: number;
 	titleBarStyle: 'native' | 'custom';

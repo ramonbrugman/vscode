@@ -812,6 +812,7 @@ export class WindowsMainService extends Disposable implements IWindowsMainServic
 	private getPathsToOpen(openConfig: IOpenConfiguration): IPathToOpen[] {
 		let windowsToOpen: IPathToOpen[];
 		let isCommandLineOrAPICall = false;
+		let restoredWindows = false;
 
 		// Extract paths: from API
 		if (openConfig.urisToOpen && openConfig.urisToOpen.length > 0) {
@@ -833,6 +834,7 @@ export class WindowsMainService extends Disposable implements IWindowsMainServic
 		// Extract windows: from previous session
 		else {
 			windowsToOpen = this.doGetWindowsFromLastSession();
+			restoredWindows = true;
 		}
 
 		// Convert multiple folders into workspace (if opened via API or CLI)
@@ -851,6 +853,15 @@ export class WindowsMainService extends Disposable implements IWindowsMainServic
 					windowsToOpen = windowsToOpen.filter(path => !path.folderUri);
 				}
 			}
+		}
+
+		// Check for `window.startup` setting to include all windows
+		// from the previous session if this is the initial startup and we have
+		// not restored windows already otherwise.
+		// Use `unshift` to ensure any new window to open comes last
+		// for proper focus treatment.
+		if (openConfig.initialStartup && !restoredWindows && this.configurationService.getValue<IWindowSettings>('window').startup === 'restore') {
+			windowsToOpen.unshift(...this.doGetWindowsFromLastSession().filter(window => window.workspace || window.folderUri || window.backupPath));
 		}
 
 		return windowsToOpen;

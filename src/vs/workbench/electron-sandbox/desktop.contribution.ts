@@ -209,6 +209,17 @@ import { IJSONSchema } from 'vs/base/common/jsonSchema';
 				'scope': ConfigurationScope.APPLICATION,
 				'markdownDescription': nls.localize('openWithoutArgumentsInNewWindow', "Controls whether a new empty window should open when starting a second instance without arguments or if the last running instance should get focus.\nNote that there can still be cases where this setting is ignored (e.g. when using the `--new-window` or `--reuse-window` command line option).")
 			},
+			'window.startup': {
+				'type': 'string',
+				'enum': ['default', 'restore'],
+				'enumDescriptions': [
+					nls.localize('window.startup.default', "Previous state is restored only if not explicitly opening a file or folder."),
+					nls.localize('window.startup.restore', "Previous state is restored even when explicitly opening a file or folder.")
+				],
+				'default': 'default',
+				'scope': ConfigurationScope.APPLICATION,
+				'markdownDescription': nls.localize('startup', "Controls wether previous state is restored on startup or not. This setting has no effect if `#window.restoreWindows#` is set restore `none`.")
+			},
 			'window.restoreWindows': {
 				'type': 'string',
 				'enum': ['all', 'folders', 'one', 'none'],
@@ -220,7 +231,7 @@ import { IJSONSchema } from 'vs/base/common/jsonSchema';
 				],
 				'default': 'all',
 				'scope': ConfigurationScope.APPLICATION,
-				'description': nls.localize('restoreWindows', "Controls how windows are being reopened after a restart.")
+				'markdownDescription': nls.localize('restoreWindows', "Controls how windows are being reopened after starting for the first time. Configure this setting in combination with `#window.startup#` for full control of how windows restore.")
 			},
 			'window.restoreFullscreen': {
 				'type': 'boolean',
